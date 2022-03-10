@@ -57,6 +57,7 @@ router.get("/getAllScores", (req, res) => {
 router.post("/createBet", isAuthenticated, (req, res) => {
   Bet.create({
     creator: req.user._id,
+    gameId: req.body.gameId,
     homeTeam: req.body.homeTeam,
     awayTeam: req.body.awayTeam,
     wager: req.body.wager,
@@ -81,6 +82,15 @@ router.get("/view-bets", (req, res) => {
       res.json(err.message);
     });
 });
+router.get("/view-bets/:gameId", (req, res) => {
+  Bet.findOne({gameId: req.params.gameId})
+    .then((allBet) => {
+      res.json(allBet);
+    })
+    .catch((err) => {
+      res.json(err.message);
+    });
+});
 router.get("/:betId/view", (req, res) => {
     Bet.findById(req.params.betId)
       .then((oneBet) => {
@@ -90,6 +100,17 @@ router.get("/:betId/view", (req, res) => {
         res.json(err.message);
       });
   });
+  
+
+  router.get("/myBets",isAuthenticated,(req,res)=>{
+    Bet.find({creator: req.user._id})
+    .then((allBets)=>{
+      res.json(allBets)
+    })
+    .catch((err) => {
+      res.json(err.message);
+    });
+  })
 //   router.post("/:betId/edit", (req, res) => {
 //     Bet.findByIdAndUpdate(
 //       req.params.betId,

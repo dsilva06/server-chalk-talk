@@ -39,6 +39,15 @@ router.get("/:postId/view-post", (req, res) => {
       res.json(err.message);
     });
 });
+router.get("/myPosts",isAuthenticated,(req,res)=>{
+  Post.find({creator: req.user}).populate("creator")
+  .then((allPosts)=>{
+    res.json(allPosts)
+  })
+  .catch((err) => {
+    res.json(err.message);
+  });
+})
 router.post("/:postId/edit", (req, res) => {
   Post.findByIdAndUpdate(
     req.params.postId,

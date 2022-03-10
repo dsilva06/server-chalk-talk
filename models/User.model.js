@@ -23,6 +23,10 @@ const userSchema = new Schema(
       unique: true,
       required:true,
     },
+    points:{
+      type: Number,
+      default: 500
+    }
   },
   
   {

@@ -29,6 +29,9 @@ const betSchema = new Schema(
     },
     bettingOnHomeTeam:{
         type: Boolean
+    },
+    gameId:{
+      type: String
     }
    
   },
